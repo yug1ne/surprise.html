@@ -8,15 +8,20 @@
 
         body {
             background-color: #ffe6e6;
-            text-align: center;
             font-family: 'Arial', sans-serif;
-            overflow: hidden; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
         }
         #message {
             display: inline-block;
-            font-size: 36px;
+            font-size: 48px;
             color: #ff4d4d;
-            margin-top: 50px;
+            margin-top: 20px;
             font-family: 'Great Vibes', cursive;
             white-space: nowrap;
             border-right: 4px solid #ff4d4d;
@@ -27,8 +32,8 @@
         }
         #heart {
             display: none;
-            width: 100px;
-            height: 90px;
+            width: 150px;
+            height: 135px;
             position: relative;
             margin: 50px auto;
             animation: pulse 1s infinite;
@@ -38,13 +43,13 @@
             content: "";
             position: absolute;
             top: 0;
-            width: 50px;
-            height: 80px;
+            width: 75px;
+            height: 120px;
             background: #ff4d4d;
             border-radius: 50px 50px 0 0;
         }
         #heart::before {
-            left: 50px;
+            left: 75px;
             transform: rotate(-45deg);
             transform-origin: 0 100%;
         }
@@ -54,32 +59,31 @@
             transform-origin: 100% 100%;
         }
         #button {
-            padding: 15px 30px;
-            font-size: 20px;
+            padding: 20px 40px;
+            font-size: 24px;
             background-color: #ff4d4d;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 100px;
             z-index: 1;
             position: relative;
         }
         #button:hover {
             background-color: #e60000;
         }
-        
+
         @keyframes blink-caret {
             from, to { border-color: transparent; }
             50% { border-color: #ff4d4d; }
         }
-        
+
         @keyframes pulse {
             0% { transform: scale(0.95); }
             70% { transform: scale(1); }
             100% { transform: scale(0.95); }
         }
-        
+
         .heart-fall {
             position: absolute;
             color: #ff4d4d;
@@ -96,6 +100,29 @@
                 opacity: 0;
             }
         }
+
+        
+        @media (max-width: 600px) {
+            #message {
+                font-size: 32px;
+            }
+            #button {
+                font-size: 20px;
+                padding: 15px 30px;
+            }
+            #heart {
+                width: 100px;
+                height: 90px;
+            }
+            #heart::before,
+            #heart::after {
+                width: 50px;
+                height: 80px;
+            }
+            #heart::before {
+                left: 50px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -104,7 +131,7 @@
     <div id="message"></div>
     <div id="heart"></div>
 
-    
+   
     <audio id="background-music" src="m/music.mp3"></audio>
 
     <script>
@@ -115,7 +142,7 @@
             var message = document.getElementById('message');
             message.style.display = 'inline-block';
 
-          
+            
             var music = document.getElementById('background-music');
             music.play();
 
@@ -132,7 +159,7 @@
             var currentMessage = 0;
             var messageText = '';
             var i = 0;
-            var speed = 100; 
+            var speed = 100;
 
             function typeWriter() {
                 if (i < messageText.length) {
@@ -178,7 +205,7 @@
             typeWriter();
         });
 
-        
+       
         var heartInterval;
         function createFallingHearts() {
             heartInterval = setInterval(function() {
