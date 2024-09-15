@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Сюрприз для тебя</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+        body {
+            background-color: #ffe6e6;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+        }
+        #message {
+            display: inline-block;
+            font-size: 36px;
+            color: #ff4d4d;
+            margin-top: 50px;
+            font-family: 'Great Vibes', cursive;
+            white-space: nowrap;
+            border-right: 4px solid #ff4d4d;
+            box-sizing: border-box;
+            opacity: 1;
+            transition: opacity 1s;
+            animation: blink-caret .75s step-end infinite;
+        }
+        #heart {
+            display: none;
+            width: 100px;
+            height: 90px;
+            position: relative;
+            margin: 50px auto;
+        }
+        #heart::before,
+        #heart::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: #ff4d4d;
+            border-radius: 50px 50px 0 0;
+        }
+        #heart::before {
+            left: 50px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        #heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        #button {
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 100px;
+        }
+        #button:hover {
+            background-color: #e60000;
+        }
+        /* Анимация мигающего курсора */
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #ff4d4d; }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="button">Нажми здесь</button>
+    <div id="message"></div>
+    <div id="heart"></div>
+
+    <!-- Элемент аудио -->
+    <audio id="background-music" src="m/winter-legacy-the-four-seasons-antonio-vivaldi-hip-hop-version-54-sec-201039.mp3"></audio>
+
+    <script>
+        document.getElementById('message').style.display = 'none';
+
+        document.getElementById('button').addEventListener('click', function() {
+            this.style.display = 'none';
+            var message = document.getElementById('message');
+            message.style.display = 'inline-block';
+
+            // Запуск фоновой музыки (если нужно)
+            var music = document.getElementById('background-music');
+            music.play();
+
+            var messages = [
+                "Ты самое прекрасное, что есть в моей жизни!",
+                "Твоя улыбка озаряет мой мир.",
+                "Я люблю тебя больше всего на свете."
+            ];
+            var currentMessage = 0;
+            var messageText = '';
+            var i = 0;
+            var speed = 100; // Скорость печати в миллисекундах
+
+            function typeWriter() {
+                if (i < messageText.length) {
+                    message.textContent += messageText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                } else {
+                    setTimeout(function() {
+                        fadeOutMessage();
+                    }, 2000); // Пауза перед исчезновением текста
+                }
+            }
+
+            function fadeOutMessage() {
+                message.style.transition = 'opacity 1s';
+                message.style.opacity = 0;
+                setTimeout(function() {
+                    message.textContent = '';
+                    message.style.opacity = 1;
+                    i = 0;
+                    currentMessage++;
+                    if (currentMessage < messages.length) {
+                        messageText = messages[currentMessage];
+                        typeWriter();
+                    } else {
+                        message.style.borderRight = 'none';
+                        showHeart();
+                    }
+                }, 1000);
+            }
+
+            function showHeart() {
+                setTimeout(function() {
+                    var heart = document.getElementById('heart');
+                    heart.style.display = 'block';
+                }, 500);
+            }
+
+            // Начинаем с первого сообщения
+            messageText = messages[currentMessage];
+            typeWriter();
+        });
+    </script>
+
+</body>
+</html>
